@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 # Create your views here.
 from .models import *
+from django.contrib.auth.decorators import login_required
 
 def index(request):
 	data = User.objects.filter(first_name='rahul')
@@ -59,19 +60,7 @@ def login_user(request):
 			return redirect("/")
 		else:
 			msg = 'incorrect details'
-			return render(request, 'login.html', {'msg': msg})
+			return render(request, 'registration/login.html', {'msg': msg})
 	else:
 		msg = ''
-		return render(request, 'login.html', {'msg': msg})
-
-
-def user_edit(request,id):
-	user1 = UserProfile.objects.get(pk=id)
-	if request.method == 'POST':
-		form = Incidentedit(request.POST, instance=user1)
-		if form.is_valid():
-			form.save()
-			return redirect('/')
-	else:
-		form = Incidentedit(instance=user1)
-		return render(request, 'incidentedit.html',{'form': form})
+		return render(request, 'registration/login.html', {'msg': msg})
